@@ -77,10 +77,12 @@ function PoolIncome({ ...props }) {
   const filteredTransactions =
     filter === "referrer"
       ? transactions.filter(
-          (transaction) => transaction.referrer === props.account
+          (transaction) =>
+            transaction.referrer.toLowerCase() === props.account.toLowerCase()
         )
       : transactions.filter(
-          (transaction) => transaction.user === props.account
+          (transaction) =>
+            transaction.user.toLowerCase() === props.account.toLowerCase()
         );
   console.log("Filter Transation", filteredTransactions);
 
