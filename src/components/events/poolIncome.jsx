@@ -114,10 +114,10 @@ function PoolIncome({ ...props }) {
             <tr key={transaction.user}>
               <td>{transaction.user}</td>
               <td>{transaction.referrer}</td>
-              <td>{transaction._time}</td>
-              <td>{transaction.Identity}</td>
+              <td>{transaction.time}</td>
+              <td>{transaction.identity}</td>
               <td className="scrollable-column">
-                {transaction.transaction_hash}
+                {transaction.transactionHash}
               </td>
             </tr>
           ))}
