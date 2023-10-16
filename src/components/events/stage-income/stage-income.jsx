@@ -62,7 +62,12 @@ function StageIncome({ ...props }) {
       let datas = response.toJSON().result.map((transaction) => ({
         user: transaction.data._user,
         referrer: transaction.data._referral,
-        time: new Date(transaction.data._time * 1000).toISOString(), // Adjust the format as needed
+        date: new Date(transaction.data._time * 1000)
+          .toISOString()
+          .split("T")[0], // Adjust the format as needed
+        time: new Date(transaction.data._time * 1000)
+          .toTimeString()
+          .split(" ")[0],
 
         level: transaction.data._level,
 
@@ -83,16 +88,17 @@ function StageIncome({ ...props }) {
   };
 
   console.log("Transaction Data: ", transactions);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("all");
   const filteredTransactions =
-    filter === "referrer"
+    filter === "all"
       ? transactions.filter(
           (transaction) =>
             transaction.referrer.toLowerCase() === props.account.toLowerCase()
         )
       : transactions.filter(
           (transaction) =>
-            transaction.user.toLowerCase() === props.account.toLowerCase()
+            transaction.referrer.toLowerCase() ===
+              props.account.toLowerCase() && transaction.level == filter
         );
   console.log("Filter Transation", filteredTransactions);
 
@@ -102,42 +108,52 @@ function StageIncome({ ...props }) {
 
       <div>
         <label>
-          Filter by Referrer:
+          Filter by Level:
           <select onChange={(e) => setFilter(e.target.value)}>
-            <option value="No">No</option>
-            <option value="referrer">Yes</option>
+            <option value="all">All</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
           </select>
         </label>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Referrer</th>
-            <th>Time</th>
-            <th>Level</th>
-            <th>Transaction Hash</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredTransactions.map((transaction) => (
-            <tr key={transaction.user}>
-              <td>{transaction.user}</td>
-              <td>{transaction.referrer}</td>
-              <td>{transaction.time}</td>
-              <td>{transaction.level}</td>
-              <td className="scrollable-column">
-                <a
-                  onClick={() => handleLinkClick(transaction.transactionHash)}
-                  className="transaction-link"
-                >
-                  {transaction.transactionHash}
-                </a>
-              </td>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Referrer</th>
+              <th>Time</th>
+              <th>Level</th>
+              <th>Transaction Hash</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredTransactions.map((transaction) => (
+              <tr key={transaction.user}>
+                <td>{transaction.referrer}</td>
+                <td>
+                  {transaction.date} <br />
+                  {transaction.time}
+                </td>
+                <td>{transaction.level}</td>
+                <td className="scrollable-column">
+                  <a
+                    onClick={() => handleLinkClick(transaction.transactionHash)}
+                    className="transaction-link"
+                  >
+                    {transaction.transactionHash}
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

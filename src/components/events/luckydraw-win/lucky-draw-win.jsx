@@ -18,7 +18,7 @@ function LuckyDrawWin({ ...props }) {
       const address = "0x7716dB181506939Ed6Ba6e35755A8668D8668D9A"; //"0xe184a68428072f0102f073a098af8ee7705519dc";
       const chain = EvmChain.BSC_TESTNET;
       const topic =
-        "0x2272193d6f1e216523e63936bf16e07f656833f967ff981f23695633350217c0";
+        "0xece26849988d1627dd651a357d99c795fa504210f5186090234f2930bf0215ce";
       const abi = {
         anonymous: false,
         inputs: [
@@ -96,36 +96,37 @@ function LuckyDrawWin({ ...props }) {
   return (
     <div className="PoolIncome-luckyDraw">
       <h1>Transaction History Of Lucky Draw Win</h1>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Winner</th>
-            <th>Luky Reward</th>
-            <th>Start ID</th>
-            <th>End ID</th>
-            <th>Transaction Hash</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((transaction) => (
-            <tr key={transaction.luckyReward}>
-              <td>{transaction.winner}</td>
-              <td>{transaction.luckyReward}</td>
-              <td>{transaction.startID}</td>
-              <td>{transaction.endID}</td>
-              <td className="scrollable-column">
-                <a
-                  onClick={() => handleLinkClick(transaction.transactionHash)}
-                  className="transaction-link"
-                >
-                  {transaction.transactionHash}
-                </a>
-              </td>
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Winner</th>
+              <th>Luky Reward</th>
+              <th>Start ID</th>
+              <th>End ID</th>
+              <th>Transaction Hash</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {transactions.map((transaction) => (
+              <tr key={transaction.luckyReward}>
+                <td>{transaction.winner}</td>
+                <td>{transaction.luckyReward}</td>
+                <td>{transaction.startID}</td>
+                <td>{transaction.endID}</td>
+                <td className="scrollable-column">
+                  <a
+                    onClick={() => handleLinkClick(transaction.transactionHash)}
+                    className="transaction-link"
+                  >
+                    {transaction.transactionHash}
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
