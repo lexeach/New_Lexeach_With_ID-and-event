@@ -47,15 +47,17 @@ function SendBalance({ ...props }) {
       });
       let datas = response.toJSON().result.map((transaction) => ({
         referrer: transaction.data.referer,
-        amount: transaction.data.amount,
-
-        // identity: transaction.data.Identity,
+        amount: parseFloat(
+          props.web3.utils.fromWei(transaction.data.amount, "ether")
+        ).toFixed(4),
         transactionHash: transaction.transaction_hash,
       }));
       console.log("Transaction:", datas);
 
       const filteredTransactions = datas.filter(
-        (transaction) => transaction.amount != 0
+        (transaction) =>
+          transaction.amount != 0 &&
+          transaction.referrer.toLowerCase() == props.account.toLowerCase()
       );
       // .log("Filter Transation", filteredTransactions);
 
